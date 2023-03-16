@@ -1,42 +1,36 @@
 let myNotes = []
+
 const inputEl = document.querySelector("#input-el")
-const saveBtn = document.querySelector("#save-btn")
 // let saveBtn = document.getElementById("save-btn")
+const saveBtn = document.querySelector("#save-btn")
+const deleteBtn = document.querySelector("#delete-btn")
+
 const ulEl = document.querySelector("#ul-el")
 
+const notesFromLocalStorage = JSON.parse(localStorage.getItem("myNotes"))
 
-saveBtn.addEventListener("click", function() {
-    if (inputEl.value != "") {
-        myNotes.push(inputEl.value)
-        renderNotes()
-        inputEl.value = ""
-    }
-})
+if (notesFromLocalStorage) {
+    myNotes = notesFromLocalStorage
+    render(myNotes)
+}
 
-function renderNotes() {
+function render(notes) {
     //ulEl.innerHTML = ""
     let listItems = ""
-    for (let note in myNotes) {
-        //ulEl.innerHTML += `<li>${myNotes[note]}</li>`
-        // or...
-        // create element
-        //const li = document.createElement("li")
-        // set text content
-        //li.textContent = myNotes[note]
-        // append to ul
-        //ulEl.append(li)
-        if (myNotes[note].startsWith("www.") && myNotes[note].endsWith(".com") || myNotes[note].endsWith(".co.uk")) {
+
+    for (let note in notes) {
+        if (notes[note].startsWith("www.") && notes[note].endsWith(".com") || notes[note].endsWith(".co.uk")) {
             listItems += `
                 <li>
-                    <a href="https://${myNotes[note]}" target="blank">
-                        ${myNotes[note]}
+                    <a href="https://${notes[note]}" target="blank">
+                        ${notes[note]}
                     </a>
                 </li>
             `
         } else {
             listItems += `
                 <li>
-                    ${myNotes[note]}
+                    ${notes[note]}
                 </li>
             `
         }
@@ -45,4 +39,23 @@ function renderNotes() {
     ulEl.innerHTML = listItems
 }
 
-console.log(listItems)
+saveBtn.addEventListener("click", function() {
+    if (inputEl.value != "") {
+        myNotes.push(inputEl.value)
+        render(myNotes)
+        inputEl.value = ""
+
+        localStorage.setItem("myNotes", JSON.stringify(myNotes))
+    } else {
+        alert("No Input to Save")
+    }
+})
+
+deleteBtn.addEventListener("dblclick", function() {
+        localStorage.clear()
+        myNotes = []
+        // dom clear
+        render(myNotes)
+        console.log("double clicked!")
+})
+
