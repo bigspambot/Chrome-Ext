@@ -3,6 +3,7 @@ let myNotes = []
 const inputEl = document.querySelector("#input-el")
 // let saveBtn = document.getElementById("save-btn")
 const saveBtn = document.querySelector("#save-btn")
+const tabBtn = document.querySelector("#tab-btn")
 const deleteBtn = document.querySelector("#delete-btn")
 
 const ulEl = document.querySelector("#ul-el")
@@ -19,7 +20,12 @@ function render(notes) {
     let listItems = ""
 
     for (let note in notes) {
-        if (notes[note].startsWith("www.") && notes[note].endsWith(".com") || notes[note].endsWith(".co.uk")) {
+        if (
+            notes[note].startsWith("www.") ||
+            notes[note].startsWith("http") ||
+            notes[note].endsWith(".com") ||
+            notes[note].endsWith(".co.uk"))
+        {
             listItems += `
                 <li>
                     <a href="https://${notes[note]}" target="blank">
@@ -42,20 +48,24 @@ function render(notes) {
 saveBtn.addEventListener("click", function() {
     if (inputEl.value != "") {
         myNotes.push(inputEl.value)
-        render(myNotes)
         inputEl.value = ""
-
         localStorage.setItem("myNotes", JSON.stringify(myNotes))
+        render(myNotes)
     } else {
         alert("No Input to Save")
     }
 })
 
+tabBtn.addEventListener("click", function() {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        myNotes.push(tabs[0].url)
+        localStorage.setItem("myNotes", JSON.stringify(myNotes))
+        render(myNotes)
+    })
+})
+
 deleteBtn.addEventListener("dblclick", function() {
         localStorage.clear()
         myNotes = []
-        // dom clear
         render(myNotes)
-        console.log("double clicked!")
 })
-
