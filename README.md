@@ -1,9 +1,15 @@
 # Chrome-Ext
  
-## This is my Notes Extension!
+## This is my Bookmarks Extension!
 
-##### You can add notes by entering input and clicking **SAVE INPUT**.
+##### You can add a bookmark by typing it to the input field and clicking **SAVE INPUT**.
 
-If you add websites they render out as *links* which you can click and go to in a separate tab.
+To save the current tab, click **SAVE TAB**.
 
 Double clicking **DELETE ALL** deletes the notes.
+
+Possible Improvements
+
+- Add notes instead of links that render as text (Without *a* tags)
+
+- Be able to delete individual entries or just the latest one (as though undoing)
