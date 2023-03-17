@@ -20,26 +20,34 @@ function render(notes) {
     let listItems = ""
 
     for (let note in notes) {
-        if (
-            notes[note].startsWith("www.") ||
-            notes[note].startsWith("http") ||
-            notes[note].endsWith(".com") ||
-            notes[note].endsWith(".co.uk"))
-        {
-            listItems += `
-                <li>
-                    <a href="https://${notes[note]}" target="blank">
-                        ${notes[note]}
-                    </a>
-                </li>
-            `
-        } else {
-            listItems += `
-                <li>
+        // if (
+        //     notes[note].startsWith("www.") ||
+        //     notes[note].startsWith("http") ||
+        //     notes[note].endsWith(".com") ||
+        //     notes[note].endsWith(".co.uk"))
+        // {
+        //     listItems += `
+        //         <li>
+        //             <a href="${notes[note]}" target="blank">
+        //                 ${notes[note]}
+        //             </a>
+        //         </li>
+        //     `
+        // } else {
+        //     listItems += `
+        //         <li>
+        //             ${notes[note]}
+        //         </li>
+        //     `
+        // }
+
+        listItems += `
+            <li>
+                <a href="${notes[note]}" target="blank">
                     ${notes[note]}
-                </li>
-            `
-        }
+                </a>
+            </li>
+        `
     }
     // NOTE - do the DOM manipulation outside of the loop for performance
     ulEl.innerHTML = listItems
@@ -65,7 +73,7 @@ tabBtn.addEventListener("click", function() {
 })
 
 deleteBtn.addEventListener("dblclick", function() {
-        localStorage.clear()
-        myNotes = []
-        render(myNotes)
+    localStorage.clear()
+    myNotes = []
+    render(myNotes)
 })
